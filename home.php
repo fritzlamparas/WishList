@@ -201,7 +201,7 @@ else{
                         </form>
                 </div>
                 END;
-                if ($a > 8) {
+                if ($a > 12) {
                   break;
                 }
                 $a = $a + 1;

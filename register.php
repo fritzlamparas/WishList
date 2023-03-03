@@ -4,6 +4,11 @@
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
+    
+    require 'vendor/phpmailer/phpmailer/src/Exception.php';
+    require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
+    require 'vendor/phpmailer/phpmailer/src/SMTP.php';
+    
 
     session_start();
      // Create login database
@@ -23,8 +28,8 @@
     if (isset($_POST['submit'])) { 
         $name = mysqli_real_escape_string($conn, $_POST['name']);
         $email = mysqli_real_escape_string($conn, $_POST['email']);
-        $password = mysqli_real_escape_string($conn, md5($_POST['pass']));
-        $confirm_password = mysqli_real_escape_string($conn, md5($_POST['cpass']));
+        $password = mysqli_real_escape_string($conn, $_POST['pass']);
+        $confirm_password = mysqli_real_escape_string($conn, $_POST['cpass']);
         $code = mysqli_real_escape_string($conn, md5(rand()));
 
         if (mysqli_num_rows(mysqli_query($conn, "SELECT * FROM users WHERE email='{$email}'")) > 0) {
@@ -45,9 +50,9 @@
                         $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
                         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
                         $mail->Username   = 'dummymadwolf5@gmail.com';                     //SMTP username
-                        $mail->Password   = 'madwolf312001pogi';                               //SMTP password
-                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-                        $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+                        $mail->Password   = 'lrhkeycwcncasior';                               //SMTP password
+                        $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
+                        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
                         //Recipients
                         $mail->setFrom('dummymadwolf5@gmail.com');
@@ -55,8 +60,8 @@
 
                         //Content
                         $mail->isHTML(true);                                  //Set email format to HTML
-                        $mail->Subject = 'no reply';
-                        $mail->Body    = 'Here is the verification link <b><a href="http://localhost/WishList/?verification='.$code.'">http://localhost/Feb%2028/?verification='.$code.'</a></b>';
+                        $mail->Subject = 'Verification Link';
+                        $mail->Body    = 'Here is the verification link <b><a href="http://localhost/WishList/?verification='.$code.'">http://localhost/WishList/?verification='.$code.'</a></b>';
                         $mail->send();
                         echo 'Message has been sent';
                     } catch (Exception $e) {
